@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+      docker: 18
+  pre_build:
+    commands:
+      $(aws ecr get-login --no-include-email --region us-east-1)
+  build:
+    commands:
+      - docker build -t hello-world .
+      - docker tag hello-world 359761372359.dkr.ecr.us-east-1.amazonaws.com/hello-world-repo
+  post_build:
+    commands:
+      docker push 359761372359.dkr.ecr.us-east-1.amazonaws.com/hello-world-repo
+   
